@@ -1,12 +1,12 @@
-This tutorial uses **PassportJS** to authenticate the NodeJS App with MySQL Database Management Software (DBMS). The reason for this article is just simple. While i was studying web development i was faced with a challenge when i was working on my second project to integrate PassportJS Authentication into my app. At that time i was using **MySQL** for database management, **SequelizeJS** which is a Object Relation Mapper(ORM) for SQL based databases, in this case MySQL, **ExpressJS** middleware, **Body Parser** and **Express Session** for server session management. The difficulty was that i could only find tutorials that used *Handlebars* as the ORM and *MondoDB* as the DBMS which at that time, i was not that farmiliar with so if you find yourself at this crossroad this is for you. I will not waste your time but dive into it right away. I will be as literal as i can possibly be so even the least knowledged in web development can understand. We will need to make a few things ready for this setup. I am using a Windows Pc so please find a workaround if anything i say does not work for your OS especially my recomendations but the process is the same i believe.<br/>
-First of all you will need to have a computer with your favorite text editor (I used VS Code), a web browser (I recommend Google Chrome), your favorite terminal (Git Bash recommended) and a SQL DBMS of your choice. I am using MySQL Workbench 6.3 CE. I will go through the steps in a list so it is easy to follow. When you have all the above and properly set up follow the instructions below. I am assuming you already have your database created, if not I will take you through.<br/>
+This tutorial uses **PassportJS** to authenticate the NodeJS App with MySQL Database Management Software (DBMS). The reason for this article is just simple. While i was studying web development i was faced with a challenge when i was working on my second project to integrate PassportJS Authentication into my app. At that time i was using **MySQL** for database management, **SequelizeJS** which is a Object Relation Mapper(ORM) for SQL based databases, in this case MySQL, **ExpressJS** middleware, **Body Parser** and **Express Session** for server session management. The difficulty was that i could only find tutorials that used *Handlebars* as the ORM and *MondoDB* as the DBMS which at that time, i was not that farmiliar with so if you find yourself at this crossroad this is for you. I will not waste your time but dive into it right away. I will be as literal as i can possibly be so even the least knowledged in web development can understand. We will need to make a few things ready for this setup. I am using a Windows Pc so please find a workaround if anything i say does not work for your OS especially my recomendations but the process is the same i believe. <br/>
+First of all you will need to have a computer with your favorite text editor (I used VS Code), a web browser (I recommend Google Chrome), your favorite terminal (Git Bash recommended) and a SQL DBMS of your choice. I am using MySQL Workbench 6.3 CE. I will go through the steps in a list so it is easy to follow. When you have all the above and properly set up follow the instructions below. I am assuming you already have your database created, if not I will take you through. <br/>
 1. Create a folder on your computer in any location of your choice. I prefer to navigate to my prefered location using my terminal and then typing `mkdir nameOfProject`. I will create the folder *learningPassportJS* on my desktop for this tutorial. Next is to type cd nameOfProject to navigate into the project folder.![](https://cdn.scotch.io/57241/my8dGvx5QZm1UbjmfRDq_projectTerminal.PNG) <br/>
 2. In the terminal we will have to initialize the folder to handle all our NodeJS framework. You can decide to do this later on but i recommend you doing this first if you are new to this process. Do this by typing `npm init` and push enter. This sets up your project with a *package.json* file. This file will contain the information including all the expected dependencies and licenses as well as your name. For our purpose i will just keep pushing enter on my keyboard to preload defaults but I will set the entry point as ***server.js***. Feel free to change what pleases you. Please make sure you have lowercase letters in your texts or you will have to type them yourself.
-![](https://cdn.scotch.io/57241/0SiEsACSSa5teEke1eyb_projectTerminalNpmInit.PNG)
-3. After we have initialized our project we will create our server.js file with `touch server.js` in the terminal.
+![](https://cdn.scotch.io/57241/0SiEsACSSa5teEke1eyb_projectTerminalNpmInit.PNG) <br/>
+3. After we have initialized our project we will create our server.js file with `touch server.js` in the terminal. <br/>>
 4. Let us now install all the dependencies we will require. I will explain why we need each one later but i like to install all to get it out of the way. You can always install them later but you need them to run the app successfuly. Install them in one line as <br/>
-`npm install --save sequelize passport passport-local mysql2 mysql express express-session body-parser bcrypt-nodejs`<br/>
-or you can choose to install them individually as<br/>
+`npm install --save sequelize passport passport-local mysql2 mysql express express-session body-parser bcrypt-nodejs` <br/>
+or you can choose to install them individually as <br/>
 `npm install --save sequelize` <br/>
 `npm install --save passport` <br/>
 `npm install --save passport-local` <br/>
@@ -15,9 +15,10 @@ or you can choose to install them individually as<br/>
 `npm install --save express` <br/>
 `npm install --save express-session` <br/>
 `npm install --save body-parser` <br/>
-`npm install --save bcrypt-nodejs` <br/>
-Adding `--save` makes sure your dependency is added and saved to your package.json file. This is important if you want to deploy this app. You will realize a new folder called *node_modules*. Do not touch this. This is what node uses to run the app locally on your computer. If you are using Git for your project do not forget to add `node_modules` to your `.gitignore` file in your project's root folder.
+`npm install --save bcrypt-nodejs` <br/> <br/>
+Adding `--save` makes sure your dependency is added and saved to your package.json file. This is important if you want to deploy this app. You will realize a new folder called *node_modules*. Do not touch this. This is what node uses to run the app locally on your computer. If you are using Git for your project do not forget to add `node_modules` to your `.gitignore` file in your project's root folder. <br/>
 5. Open the server.js file created in your favorite terminal and input a few lines of code in our server.js file. Don't worry, I will have a horseload of comments on all the codes so it is easy to understand why i write each line. You can copy the code below into your server file.<br/>
+
 ```javascript
 // Requiring necessary npm middleware packages 
 var express = require("express");
@@ -42,14 +43,16 @@ app.get('/', function(req, res) {
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
-```<br/>
+```
+<br/>
 Save the server file. Let us run the server to make sure it is working properly. Do this by typing `npm start` or `node server.js` in your terminal. You remember the *entry point* when we run `npm init`? This is what is called when you run `npm start`.
 If you followed the instruction well up to this point you should see the following
 ![](https://cdn.scotch.io/57241/efP7HKyVTYGJAzXZkI9S_projectTerminalServerTest.PNG)<br/>
-Open your browser and enter the location [localhost:8080](http://localhost:8080). This will display *Welcome to Passport with Sequelize and without HandleBars*. Great Job!! on getting this far. You are on your way to creating your app. If you don't see that page look up the steps from the beginning. You can end the server and go back to your code.<br/>
-6. I assumed from the beginning you might have already created your database. If you have not and or do not know how to go about this do not worry. Just open your MySQL program of choice and from the query shell enter `CREATE DATABASE passport_demo;` and run it. You shoould have a database created with name *passport_demo*.<br/>
+Open your browser and enter the location [localhost:8080](http://localhost:8080). This will display *Welcome to Passport with Sequelize and without HandleBars*. Great Job!! on getting this far. You are on your way to creating your app. If you don't see that page look up the steps from the beginning. You can end the server and go back to your code. <br/>
+6. I assumed from the beginning you might have already created your database. If you have not and or do not know how to go about this do not worry. Just open your MySQL program of choice and from the query shell enter `CREATE DATABASE passport_demo;` and run it. You shoould have a database created with name *passport_demo*. <br/>
 6. Now that we have our server and dabase working it is time to add the other parts. We will configure and initialize our sequelize module. Do this by typing `sequelize init:models & sequelize init:config` and hit enter.
-After this code runs, you should see two folders *models* and *config*. Open the config folder and you should see a *config.json* file. Open it and edit the development object's settings to match yours. If you have a password on your database enter it here in quotes. Example is below
+After this code runs, you should see two folders *models* and *config*. Open the config folder and you should see a *config.json* file. Open it and edit the development object's settings to match yours. If you have a password on your database enter it here in quotes. Example is below <br/>
+
 ```json
 {
   "development": {
@@ -74,9 +77,11 @@ After this code runs, you should see two folders *models* and *config*. Open the
     "dialect": "mysql"
   }
 }
-```<br/>
-Navigate back and open the models folder. You should see a *index.js* file. This should be unchanged for our tutorial but if you have your config folder in a different location you can open it and edit Line 8 from Col 37 to route to your location because it will need the *config.json* file to work.Some Windows PCs will also throw an error that it couldn't find the config module. change the backslahes on that to forward slashes to fix that error.<br/>
-7. In the *models* folder create a new file called *user.js*. This is going to insert our user information to the database using sequelize. You can have multiple model files depending on your needs. The models folder should contain the various table inserts that you make in the database.In this tutorial we want a user model.  We will require  the *bcrypt-nodejs* package to encrypt and decrypt the password that the user creates or logs in with. Your *user.js* file should look like this
+```
+<br/>
+Navigate back and open the models folder. You should see a *index.js* file. This should be unchanged for our tutorial but if you have your config folder in a different location you can open it and edit Line 8 from Col 37 to route to your location because it will need the *config.json* file to work.Some Windows PCs will also throw an error that it couldn't find the config module. change the backslahes on that to forward slashes to fix that error. <br/>
+7. In the *models* folder create a new file called *user.js*. This is going to insert our user information to the database using sequelize. You can have multiple model files depending on your needs. The models folder should contain the various table inserts that you make in the database.In this tutorial we want a user model.  We will require  the *bcrypt-nodejs* package to encrypt and decrypt the password that the user creates or logs in with. Your *user.js* file should look like this <br/>
+
 ```javascript
 // Requiring bcrypt for password hashing. Using the bcrypt-nodejs version as 
 //the regular bcrypt module sometimes causes errors on Windows machines
@@ -114,8 +119,10 @@ module.exports = function(sequelize, DataTypes) {
   });
   return User;
 };
-```<br/>
-8. Let us go back to our *server.js* file and add a few lines of code. We will need to require the server to read the models folder and we will also need it to sync our inserts and reads to the database. Your server.js should look like this
+```
+<br/>
+8. Let us go back to our *server.js* file and add a few lines of code. We will need to require the server to read the models folder and we will also need it to sync our inserts and reads to the database. Your server.js should look like this <br/>
+
 ```javascript
 // Requiring necessary npm middleware packages 
 var express = require("express");
@@ -146,9 +153,11 @@ db.sequelize.sync().then(function() {
     console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
   });
 });
-```<br/>
-9. Now let us navigate to the config folder and create another folder called *middleware* and inside that folder create a file called *isAuthenticated.js*. Your should have `/config/middleware/isAuthenticated.js`
-Open and edit the *isAuthenticated.js* file to match this
+```
+<br/>
+9. Now let us navigate to the config folder and create another folder called *middleware* and inside that folder create a file called *isAuthenticated.js*. You should have `/config/middleware/isAuthenticated.js`.
+Open and edit the *isAuthenticated.js* file to match this <br/>
+
 ```javascript
 // This is middleware for restrictng routes a user is not allowed to visit if not logged in
 module.exports = function(req, res, next) {
@@ -160,8 +169,10 @@ module.exports = function(req, res, next) {
   return res.redirect("/");
 };
 ```
-This will be exported also and we will need this to restrict access to pages meant for logged in users only.
-10. It is time to set up passport. In the *config* folder create a file called passport.js. Open the file and input the following in the file. The comments explain it all.
+<br/>
+This will be exported also and we will need this to restrict access to pages meant for logged in users only. <br/>
+10. It is time to set up passport. In the *config* folder create a file called passport.js. Open the file and input the following in the file. The comments explain it all. <br/>
+
 ```javascript
 //we import passport packages required for authentication
 var passport = require("passport");
@@ -215,8 +226,10 @@ passport.deserializeUser(function(obj, cb) {
 //
 // Exporting our configured passport
 module.exports = passport;
-```<br/>
-11. For our app to work as expected we need to be able to GET and POST to our database. Example of this is the `app.get` code block we placed in the *server.js* file. Let us write a clean code. Create a folder in your root folder called *routes* and also create two files called *api-routes.js* and *html-routes.js*. The *api-routes.js* will be used to route `GET` and `POST`  from and to the database. open the *api-routes.js* and paste the following. The comments explain it all.
+```
+<br/>
+11. For our app to work as expected we need to be able to GET and POST to our database. Example of this is the `app.get` code block we placed in the *server.js* file. Let us write a clean code. Create a folder in your root folder called *routes* and also create two files called *api-routes.js* and *html-routes.js*. The *api-routes.js* will be used to route `GET` and `POST`  from and to the database. open the *api-routes.js* and paste the following. The comments explain it all. <br/>
+
 ```javascript
 // Requiring our models and passport as we've configured it
 var db = require("../models");
@@ -272,9 +285,11 @@ module.exports = function(app) {
     }
   });
 };
-```<br/>
-Let us leave the *html-routes.js* for now. We will come back to it. We will need it to handle login and serve our pages.
-12. On the *server.js* file we will need to import and initialize passport. Make sure your express is initialized before passport as passport requires express. The markup in the server is very important. I will also remove the `app.get` code block since we don't need it. Your server file should look like the below
+```
+<br/>
+Let us leave the *html-routes.js* for now. We will come back to it. We will need it to handle login and serve our pages. <br/>
+12. On the *server.js* file we will need to import and initialize passport. Make sure your express is initialized before passport as passport requires express. The markup in the server is very important. I will also remove the `app.get` code block since we don't need it. Your server file should look like the below <br/>
+
 ```javascript
 // Requiring necessary npm packages
 var express = require("express");
@@ -308,10 +323,12 @@ db.sequelize.sync().then(function() {
   });
 });
 ```
-Note that we are requiring html-routes also. The Next step is to create our user interface (UI) to be able to capture the user's information for signing in and or logging in. This will be the regular html files we usually create with its css and js files but this time it will be placed in a public folder. This is the folder express will use and parse from. If you are conversant with [POSTMAN](https://www.getpostman.com/) you can test the server using it at this point.
-13. I created a sample public folder with its files in it. which is what i will be using for this tutorial. Download it from [Mediafire](http://www.mediafire.com/file/39hjqqp8t2ddyuy/learnPassportPublic.zip) and unzip into the root folder.
-14. Take a look at the html files in the public folder. You will see that I captured the signup, login, and members page `GEt`s using `API`s. This way we can pass it to the server with ease.
-15. Now open the *html-routes.js* and paste the following code
+<br/>
+Note that we are requiring html-routes also. The Next step is to create our user interface (UI) to be able to capture the user's information for signing in and or logging in. This will be the regular html files we usually create with its css and js files but this time it will be placed in a public folder. This is the folder express will use and parse from. If you are conversant with [POSTMAN](https://www.getpostman.com/) you can test the server using it at this point. <br/>
+13. I created a sample public folder with its files in it. which is what i will be using for this tutorial. Download it from [Mediafire](http://www.mediafire.com/file/39hjqqp8t2ddyuy/learnPassportPublic.zip) and unzip into the root folder. <br/>
+14. Take a look at the html files in the public folder. You will see that I captured the signup, login, and members page `GEt`s using `API`s. This way we can pass it to the server with ease. <br/>
+15. Now open the *html-routes.js* and paste the following code <br/>
+
 ```javascript
 // Requiring path to so we can use relative routes to our HTML files
 var path = require("path");
@@ -344,8 +361,9 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/members.html"));
   });
 };
-```<br/>
+```
+<br/>
 Save all files and then run the server with `npm start` or `node server.js`. If your server fails check the error on your terminal and go over everything from this tutorial. Take a look at `*/public/js/members.js*` and you will be able to understand what you need in order to get the user information. Sequelize automatically creates an `id` for a user so you can use it to handle associations on other tables in the database.
-If for example you are looking to authenticate on a classified website all you will have to make sure is to have a model such as posting to insert into database, api route to do the post, html route to GET page before and after Post to the database. Always make sure you pass `isAuthenticated` on any html route that you do not want the user to access without logging in. `isAuthenticated` will always check for access if used.
+If for example you are looking to authenticate on a classified website all you will have to make sure is to have a model such as posting to insert into database, api route to do the post, html route to GET page before and after Post to the database. Always make sure you pass `isAuthenticated` on any html route that you do not want the user to access without logging in. `isAuthenticated` will always check for access if used. <br/>
 
 I hope my very literal explanation is able to help you figure out your authentication without the use of handlebars or MongoDB.
